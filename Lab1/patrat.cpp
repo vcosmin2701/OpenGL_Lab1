@@ -8,19 +8,28 @@ Programul afiseaza un patrat pe care il translateaza pe axa x la apasarea sageti
 #include "glaux.h"
 
 static GLfloat x = 0;
+static GLfloat y = 0;
 
 void myInit() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-void CALLBACK MutaStanga()
+void CALLBACK MoveLeft()
 {
-    x = x - 10;
+    x -= 10;
 }
 
-void CALLBACK MutaDreapta()
+void CALLBACK MoveRight()
 {
-    x = x + 10;
+    x += 10;
+}
+
+void CALLBACK MoveDown() {
+    y -= 10;
+}
+
+void CALLBACK MoveUp() {
+    y += 10;
 }
 
 void CALLBACK display()
@@ -29,7 +38,7 @@ void CALLBACK display()
 
     glLoadIdentity();
 
-    glTranslatef(x, 0, 0.0);
+    glTranslatef(x, y, 0.0);
 
     glBegin(GL_QUADS);
     {
@@ -83,8 +92,10 @@ int main(int argc, char** argv)
     auxInitPosition(0, 0, 800, 600);
     auxInitWindow("Un patrat");
     myInit();
-    auxKeyFunc(AUX_LEFT, MutaStanga);
-    auxKeyFunc(AUX_RIGHT, MutaDreapta);
+    auxKeyFunc(AUX_LEFT, MoveLeft);
+    auxKeyFunc(AUX_RIGHT, MoveRight);
+    auxKeyFunc(AUX_UP, MoveUp);
+    auxKeyFunc(AUX_DOWN, MoveDown);
 
     auxReshapeFunc(myReshape);
     auxMainLoop(display);
