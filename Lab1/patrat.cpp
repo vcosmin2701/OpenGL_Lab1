@@ -9,6 +9,7 @@ Programul afiseaza un patrat pe care il translateaza pe axa x la apasarea sageti
 
 static GLfloat x = 0;
 static GLfloat y = 0;
+static GLfloat alpha =0;
 
 void myInit() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -32,13 +33,24 @@ void CALLBACK MoveUp() {
     y += 10;
 }
 
+void CALLBACK rot_z_up(AUX_EVENTREC* event) {
+    alpha += 5;
+}
+
+void CALLBACK rot_z_down(AUX_EVENTREC* event) {
+    alpha -= 5;
+}
+
 void CALLBACK display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    glPushMatrix();
     glTranslatef(x, y, 0.0);
+    glRotatef(alpha, 0.0f, 0.0f,1.0f);
 
     glBegin(GL_QUADS);
     {
@@ -52,9 +64,15 @@ void CALLBACK display()
         glVertex2f(100.0, 150.0);
     }
     glEnd();
+    
+
+    glPopMatrix();
+  
 
     glFlush();
 }
+
+
 
 #define ISOTROPIC
 #ifdef ISOTROPIC
@@ -96,6 +114,10 @@ int main(int argc, char** argv)
     auxKeyFunc(AUX_RIGHT, MoveRight);
     auxKeyFunc(AUX_UP, MoveUp);
     auxKeyFunc(AUX_DOWN, MoveDown);
+
+    auxMouseFunc(AUX_LEFTBUTTON, AUX_MOUSEDOWN, rot_z_down);
+    auxMouseFunc(AUX_RIGHTBUTTON, AUX_MOUSEDOWN, rot_z_up);
+
 
     auxReshapeFunc(myReshape);
     auxMainLoop(display);
