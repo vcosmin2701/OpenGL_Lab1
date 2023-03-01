@@ -36,11 +36,11 @@ void CALLBACK MoveUp() {
 }
 
 void CALLBACK rot_z_up(AUX_EVENTREC* event) {
-    alpha += 5;
+    alpha -= 5;
 }
 
 void CALLBACK rot_z_down(AUX_EVENTREC* event) {
-    alpha -= 5;
+    alpha += 5;
 }
 
 void CALLBACK display()
@@ -57,7 +57,7 @@ void CALLBACK display()
     glBegin(GL_QUADS);
     {
         glColor3f(1.0, 0.0, 0.0);
-        glVertex2f(100, 100);
+        glVertex2f(0, 0);
         glColor3f(1.0, 1.0, 0.0);
         glVertex2f(150.0, 100.0);
         glColor3f(0.0, 0.0, 1.0);
@@ -92,10 +92,10 @@ void CALLBACK myReshape(GLsizei w, GLsizei h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     if (w <= h) {
-        glOrtho(-160.0, 160.0, 160.0 * (GLfloat)h / (GLfloat)w, -160.0 * (GLfloat)h / (GLfloat)w, -10.0, 10.0);
+        glOrtho(0.0, 320.0, 320.0 * (GLfloat)h / (GLfloat)w,0.0 * (GLfloat)h / (GLfloat)w, -100.0, 100.0);
     }
     else {
-        glOrtho(-160.0 * (GLfloat)w / (GLfloat)h, 160.0 * (GLfloat)w / (GLfloat)h, -160.0, 160.0, -10.0, 10.0);
+        glOrtho(0.0 * (GLfloat)w / (GLfloat)h, 320.0 * (GLfloat)w / (GLfloat)h, 0, 320.0, -100.0, 100.0);
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
 {
     auxInitDisplayMode(AUX_SINGLE | AUX_RGB);
     auxInitPosition(0, 0, 800, 600);
-    auxInitWindow("Un patrat");
+    auxInitWindow("Square");
     myInit();
     auxKeyFunc(AUX_LEFT, MoveLeft);
     auxKeyFunc(AUX_RIGHT, MoveRight);
